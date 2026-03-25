@@ -1,0 +1,28 @@
+<div class="space-y-2 max-h-96 overflow-y-auto">
+  @for (slot of timeSlots(); track slot) {
+    @let evento = getEventoNoSlot(slot);
+    <div class="flex gap-4 border-b border-base-300 pb-2">
+      <div class="w-16 flex-shrink-0 text-right text-xs font-medium text-base-content/60">
+        {{ slot }}
+      </div>
+      @if (evento) {
+        <div
+          class="flex-1 cursor-pointer rounded-lg p-3 text-white font-semibold transition-all hover:shadow-md"
+          [style.background-color]="evento.cor"
+          [title]="getTooltipText(evento)"
+          (click)="onClickSlot(slot)"
+        >
+          {{ evento.nome }}
+        </div>
+      } @else {
+        <div
+          class="flex-1 cursor-pointer rounded-lg border-2 border-dashed border-base-300 p-3 hover:border-primary hover:bg-primary/5 transition-all"
+          [title]="'Clique para adicionar evento'"
+          (click)="onClickSlot(slot)"
+        >
+          <div class="text-xs text-base-content/50">Clique para adicionar evento</div>
+        </div>
+      }
+    </div>
+  }
+</div>

@@ -1,0 +1,186 @@
+<div class="modal modal-open">
+  <div class="modal-box w-full max-w-2xl max-h-96 overflow-y-auto">
+    <h3 class="text-lg font-bold mb-4">
+      {{ evento ? 'Editar Evento' : 'Novo Evento' }}
+    </h3>
+
+    <div class="space-y-4">
+      <!-- Nome -->
+      <div class="form-control">
+        <label class="label">
+          <span class="label-text font-semibold">Nome do Evento *</span>
+        </label>
+        <input
+          type="text"
+          placeholder="ex: Reunião com cliente"
+          class="input input-bordered w-full"
+          [value]="formData().nome"
+          (change)="updateFormField('nome', $event.target.value)"
+        />
+      </div>
+
+      <!-- Descrição -->
+      <div class="form-control">
+        <label class="label">
+          <span class="label-text font-semibold">Descrição</span>
+        </label>
+        <textarea
+          placeholder="Detalhes do evento"
+          class="textarea textarea-bordered w-full"
+          [value]="formData().descricao"
+          (input)="updateFormField('descricao', $event)"
+        ></textarea>
+      </div>
+
+      <!-- Data e Horário -->
+      <div class="grid grid-cols-3 gap-4">
+        <div class="form-control">
+          <label class="label">
+            <span class="label-text font-semibold">Data *</span>
+          </label>
+          <input
+            type="date"
+            class="input input-bordered"
+            [value]="formData().data"
+            (change)="updateFormField('data', $event.target.value)"
+          />
+        </div>
+
+        <div class="form-control">
+          <label class="label">
+            <span class="label-text font-semibold">Início *</span>
+          </label>
+          <input
+            type="time"
+            class="input input-bordered"
+            [value]="formData().horaInicio"
+            (change)="updateFormField('horaInicio', $event.target.value)"
+          />
+        </div>
+
+        <div class="form-control">
+          <label class="label">
+            <span class="label-text font-semibold">Fim *</span>
+          </label>
+          <input
+            type="time"
+            class="input input-bordered"
+            [value]="formData().horaFim"
+            (change)="updateFormField('horaFim', $event.target.value)"
+          />
+        </div>
+      </div>
+
+      <!-- Cor -->
+      <div class="form-control">
+        <label class="label">
+          <span class="label-text font-semibold">Cor do Evento</span>
+        </label>
+        <div class="flex gap-2">
+          @for (cor of cores; track cor) {
+            <button
+              type="button"
+              class="btn btn-circle w-10 h-10 border-2"
+              [style.background-color]="cor"
+              [class.border-base-300]="formData().cor !== cor"
+              [class.border-base-content]="formData().cor === cor"
+              [class.border-4]="formData().cor === cor"
+              (click)="updateFormField('cor', cor)"
+            ></button>
+          }
+        </div>
+      </div>
+
+      <!-- Clientes -->
+      <div class="form-control">
+        <label class="label">
+          <span class="label-text font-semibold">Clientes</span>
+        </label>
+        <div class="space-y-2 max-h-32 overflow-y-auto border border-base-300 rounded p-2">
+          @if (clientes().length === 0) {
+            <p class="text-xs text-base-content/50">Nenhum cliente cadastrado</p>
+          }
+          @for (cliente of clientes(); track cliente.id) {
+            <label class="flex items-center gap-2 cursor-pointer">
+              <input
+                type="checkbox"
+                class="checkbox checkbox-sm"
+                [checked]="isClienteSelecionado(cliente.id)"
+                (change)="toggleCliente(cliente.id)"
+              />
+              <span class="text-sm">{{ cliente.nome }}</span>
+            </label>
+          }
+        </div>
+      </div>
+
+      <!-- Serviços -->
+      <div class="form-control">
+        <label class="label">
+          <span class="label-text font-semibold">Serviços</span>
+        </label>
+        <div class="space-y-2 max-h-32 overflow-y-auto border border-base-300 rounded p-2">
+          @if (servicos().length === 0) {
+            <p class="text-xs text-base-content/50">Nenhum serviço cadastrado</p>
+          }
+          @for (servico of servicos(); track servico.id) {
+            <label class="flex items-center gap-2 cursor-pointer">
+              <input
+                type="checkbox"
+                class="checkbox checkbox-sm"
+                [checked]="isServicoSelecionado(servico.id)"
+                (change)="toggleServico(servico.id)"
+              />
+              <span class="text-sm">{{ servico.nome }}</span>
+            </label>
+          }
+        </div>
+      </div>
+
+      <!-- Fornecedores -->
+      <div class="form-control">
+        <label class="label">
+          <span class="label-text font-semibold">Fornecedores</span>
+        </label>
+        <div class="space-y-2 max-h-32 overflow-y-auto border border-base-300 rounded p-2">
+          @if (fornecedores().length === 0) {
+            <p class="text-xs text-base-content/50">Nenhum fornecedor cadastrado</p>
+          }
+          @for (fornecedor of fornecedores(); track fornecedor.id) {
+            <label class="flex items-center gap-2 cursor-pointer">
+              <input
+                type="checkbox"
+                class="checkbox checkbox-sm"
+                [checked]="isFornecedorSelecionado(fornecedor.id)"
+                (change)="toggleFornecedor(fornecedor.id)"
+              />
+              <span class="text-sm">{{ fornecedor.nome }}</span>
+            </label>
+          }
+        </div>
+      </div>
+    </div>
+
+    <div class="modal-action mt-6">
+      <button
+        type="button"
+        class="btn btn-outline btn-sm"
+        (click)="fechar()"
+      >
+        Cancelar
+      </button>
+      <button
+        type="button"
+        class="btn btn-primary btn-sm"
+        [disabled]="!temMudancas()"
+        (click)="salvarEvento()"
+      >
+        {{ evento ? 'Atualizar' : 'Criar' }} Evento
+      </button>
+    </div>
+  </div>
+
+  <form method="dialog" class="modal-backdrop" (ngSubmit)="fechar()">
+    <button type="submit"></button>
+  </form>
+</div>

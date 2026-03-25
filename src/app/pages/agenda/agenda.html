@@ -1,0 +1,85 @@
+<div class="space-y-4">
+  <!-- Header -->
+  <div class="flex items-center justify-between">
+    <!-- View Tabs -->
+    <div class="tabs tabs-lifted">
+      <button
+        type="button"
+        class="tab"
+        [class.tab-active]="currentView() === 'weekly'"
+        (click)="switchView('weekly')"
+      >
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          class="h-5 w-5"
+          fill="currentColor"
+          viewBox="0 0 24 24"
+        >
+          <path
+            d="M5 3h14a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2zm0 2v4h14V5H5zm0 6v8h14v-8H5z"
+          />
+        </svg>
+        Semanal
+      </button>
+
+      <button
+        type="button"
+        class="tab"
+        [class.tab-active]="currentView() === 'monthly'"
+        (click)="switchView('monthly')"
+      >
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          class="h-5 w-5"
+          fill="currentColor"
+          viewBox="0 0 24 24"
+        >
+          <path
+            d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 16H5V8h14v11z"
+          />
+        </svg>
+        Mensal
+      </button>
+    </div>
+
+    <!-- Botão Novo Evento -->
+    <button
+      type="button"
+      class="btn btn-primary btn-sm"
+      (click)="abrirNovoEvento()"
+    >
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        class="h-5 w-5"
+        fill="currentColor"
+        viewBox="0 0 24 24"
+      >
+        <path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z" />
+      </svg>
+      Novo Evento
+    </button>
+  </div>
+
+  <!-- Content -->
+  <div class="rounded-lg bg-base-100 p-4">
+    @if (currentView() === 'weekly') {
+      <app-weekly
+        (abrirEvento)="abrirEditarEvento($event)"
+        (novoEvento)="abrirNovoEventoComData($event.data, $event.hora)"
+      ></app-weekly>
+    } @else if (currentView() === 'monthly') {
+      <app-monthly></app-monthly>
+    }
+  </div>
+
+  <!-- Modal de Evento -->
+  @if (showEventoModal()) {
+    <app-evento-modal
+      [evento]="eventoEditando() || undefined"
+      [dataInicial]="dataInicial()"
+      [horaInicial]="horaInicial()"
+      (salvo)="salvarEvento($event)"
+      (fechado)="fecharModal()"
+    ></app-evento-modal>
+  }
+</div>

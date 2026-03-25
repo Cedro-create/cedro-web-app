@@ -1,0 +1,102 @@
+<div class="space-y-4">
+  <!-- Navigation -->
+  <div class="flex items-center justify-between">
+    <button
+      type="button"
+      class="btn btn-sm btn-outline"
+      (click)="previousWeek()"
+    >
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        class="h-4 w-4"
+        fill="none"
+        viewBox="0 0 24 24"
+        stroke="currentColor"
+      >
+        <path
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          stroke-width="2"
+          d="M15 19l-7-7 7-7"
+        />
+      </svg>
+      Anterior
+    </button>
+
+    <h2 class="text-lg font-semibold">{{ getWeekLabel() }}</h2>
+
+    <button
+      type="button"
+      class="btn btn-sm btn-outline"
+      (click)="nextWeek()"
+    >
+      Próxima
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        class="h-4 w-4"
+        fill="none"
+        viewBox="0 0 24 24"
+        stroke="currentColor"
+      >
+        <path
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          stroke-width="2"
+          d="M9 5l7 7-7 7"
+        />
+      </svg>
+    </button>
+  </div>
+
+  <!-- Weekly Grid -->
+  <div class="overflow-x-auto">
+    <div class="min-w-max">
+      <!-- Header with days -->
+      <div class="sticky top-0 z-10 mb-0 grid" style="grid-template-columns: 60px repeat(7, 1fr);">
+        <!-- Time column header -->
+        <div class="border-b-2 border-base-300 bg-base-200 p-2 text-center text-xs font-semibold"></div>
+
+        <!-- Day headers -->
+        @for (date of weekDates(); track date.getTime()) {
+          <div
+            class="border-b-2 border-base-300 bg-base-200 p-2 text-center text-xs font-semibold"
+            [class.bg-primary]="isToday(date)"
+            [class.text-primary-content]="isToday(date)"
+          >
+            <div>{{ getDateLabel(date) }}</div>
+          </div>
+        }
+      </div>
+
+      <!-- Time slots -->
+      @for (slot of timeSlots(); track slot) {
+        <div class="grid" style="grid-template-columns: 60px repeat(7, 1fr);">
+          <!-- Time label -->
+          <div class="border-b border-base-300 bg-base-100 p-2 text-right text-xs font-medium">
+            {{ slot }}
+          </div>
+
+          <!-- Time slot cells -->
+          @for (date of weekDates(); track date.getTime()) {
+            @let evento = getEventoNoSlot(date, slot);
+            <div
+              class="border-b border-r border-base-300 p-1 cursor-pointer transition-all"
+              [class.hover:bg-base-200]="!evento"
+              [style.background-color]="evento ? evento.cor : 'transparent'"
+              [style.opacity]="evento ? '0.7' : '1'"
+              [style]="evento ? 'min-height: 40px; display: flex; align-items: center; justify-content: center;' : 'min-height: 40px'"
+              [title]="evento ? getTooltipText(evento) : 'Clique para adicionar evento'"
+              (click)="onClickSlot(date, slot)"
+            >
+              @if (evento) {
+                <span class="text-xs font-semibold text-white text-center truncate px-1">
+                  {{ evento.nome }}
+                </span>
+              }
+            </div>
+          }
+        </div>
+      }
+    </div>
+  </div>
+</div>
