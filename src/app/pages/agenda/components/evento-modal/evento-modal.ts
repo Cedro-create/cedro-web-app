@@ -205,7 +205,12 @@ export class EventoModalComponent {
 
   salvarEvento() {
     const data = this.formData();
-    if (!data.nome) return;
+    console.log('🔵 EventoModal: salvarEvento() chamado', data);
+
+    if (!data.nome) {
+      console.log('❌ EventoModal: nome vazio, abortando');
+      return;
+    }
 
     const eventoData = {
       nome: data.nome,
@@ -224,6 +229,7 @@ export class EventoModalComponent {
       ...eventoData
     };
 
+    console.log('📤 EventoModal: emitindo evento', eventoCompleto);
     this.salvo.emit(eventoCompleto);
   }
 

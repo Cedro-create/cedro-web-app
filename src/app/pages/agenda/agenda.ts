@@ -53,10 +53,15 @@ export class AgendaComponent {
   }
 
   salvarEvento(evento: Evento) {
+    console.log('🟢 AgendaComponent: salvarEvento() recebido', evento);
+    console.log('📝 AgendaComponent: editando?', this.eventoEditando());
+
     if (this.eventoEditando()) {
+      console.log('✏️ AgendaComponent: atualizando evento', evento.id);
       this.eventoService.atualizarEvento(evento.id, evento);
     } else {
       const { id, ...eventoSemId } = evento;
+      console.log('✨ AgendaComponent: criando novo evento (removido ID fake)', eventoSemId);
       this.eventoService.criarEvento(eventoSemId);
     }
     this.fecharModal();

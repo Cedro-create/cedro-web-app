@@ -13,9 +13,16 @@ export class EventoService {
   }
 
   private loadEventos() {
-    this.repository.getAll().subscribe(eventos => {
-      this._eventos.set(eventos);
-    });
+    console.log('📥 EventoService: carregando eventos...');
+    this.repository.getAll().subscribe(
+      eventos => {
+        console.log('✅ EventoService: eventos carregados', eventos);
+        this._eventos.set(eventos);
+      },
+      error => {
+        console.error('❌ EventoService: erro ao carregar eventos', error);
+      }
+    );
   }
 
   getEventosByDate(dataIso: string): Evento[] {
@@ -55,25 +62,49 @@ export class EventoService {
   }
 
   criarEvento(evento: Omit<Evento, 'id'>) {
-    this.repository.create(evento).subscribe(novoEvento => {
-      this._eventos.set([...this.eventos(), novoEvento]);
-    });
+    console.log('🔨 EventoService.criarEvento: iniciando', evento);
+    this.repository.create(evento).subscribe(
+      novoEvento => {
+        console.log('🎉 EventoService.criarEvento: evento criado com sucesso', novoEvento);
+        const eventosList = [...this.eventos(), novoEvento];
+        console.log('📋 EventoService.criarEvento: lista atualizada com', eventosList.length, 'eventos');
+        this._eventos.set(eventosList);
+      },
+      error => {
+        console.error('💥 EventoService.criarEvento: erro ao criar evento', error);
+      }
+    );
   }
 
   atualizarEvento(id: string, evento: Partial<Evento>) {
-    this.repository.update(id, evento).subscribe(eventoAtualizado => {
-      const eventos = [...this.eventos()];
-      const index = eventos.findIndex(e => e.id === id);
-      if (index !== -1) {
-        eventos[index] = eventoAtualizado;
-        this._eventos.set(eventos);
+    console.log('🔄 EventoService.atualizarEvento: iniciando para ID', id, evento);
+    this.repository.update(id, evento).subscribe(
+      eventoAtualizado => {
+        console.log('✏️ EventoService.atualizarEvento: sucesso', eventoAtualizado);
+        const eventos = [...this.eventos()];
+        const index = eventos.findIndex(e => e.id === id);
+        if (index !== -1) {
+          eventos[index] = eventoAtualizado;
+          this._eventos.set(eventos);
+          console.log('📝 EventoService.atualizarEvento: lista atualizada');
+        }
+      },
+      error => {
+        console.error('💥 EventoService.atualizarEvento: erro', error);
       }
-    });
+    );
   }
 
   deletarEvento(id: string) {
-    this.repository.delete(id).subscribe(() => {
-      this._eventos.set(this.eventos().filter(e => e.id !== id));
-    });
+    console.log('🗑️ EventoService.deletarEvento: deletando ID', id);
+    this.repository.delete(id).subscribe(
+      () => {
+        console.log('✅ EventoService.deletarEvento: sucesso');
+        this._eventos.set(this.eventos().filter(e => e.id !== id));
+      },
+      error => {
+        console.error('💥 EventoService.deletarEvento: erro', error);
+      }
+    );
   }
 }
