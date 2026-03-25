@@ -56,7 +56,10 @@ export class AgendaComponent {
     console.log('🟢 AgendaComponent: salvarEvento() recebido', evento);
     console.log('📝 AgendaComponent: editando?', this.eventoEditando());
 
-    if (this.eventoEditando()) {
+    if ((evento as any)._delete) {
+      console.log('🗑️ AgendaComponent: deletando evento', evento.id);
+      this.eventoService.deletarEvento(evento.id);
+    } else if (this.eventoEditando()) {
       console.log('✏️ AgendaComponent: atualizando evento', evento.id);
       this.eventoService.atualizarEvento(evento.id, evento);
     } else {

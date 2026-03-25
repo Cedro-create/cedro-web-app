@@ -203,6 +203,15 @@ export class EventoModalComponent {
     this.fechado.emit();
   }
 
+  deletarEvento() {
+    if (!this.evento) return;
+
+    if (confirm('Tem certeza que deseja deletar este evento?')) {
+      this.salvo.emit({ ...this.evento, _delete: true } as any);
+      this.fechar();
+    }
+  }
+
   salvarEvento() {
     const data = this.formData();
     console.log('🔵 EventoModal: salvarEvento() chamado', data);

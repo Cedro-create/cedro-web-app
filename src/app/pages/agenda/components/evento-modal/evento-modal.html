@@ -161,22 +161,36 @@
       </div>
     </div>
 
-    <div class="modal-action mt-6">
-      <button
-        type="button"
-        class="btn btn-outline btn-sm"
-        (click)="fechar()"
-      >
-        Cancelar
-      </button>
-      <button
-        type="button"
-        class="btn btn-primary btn-sm"
-        [disabled]="!temMudancas()"
-        (click)="salvarEvento()"
-      >
-        {{ evento ? 'Atualizar' : 'Criar' }} Evento
-      </button>
+    <div class="modal-action mt-6 flex justify-between">
+      <!-- Delete button on the left (only when editing) -->
+      @if (evento) {
+        <button
+          type="button"
+          class="btn btn-error btn-sm"
+          (click)="deletarEvento()"
+        >
+          Deletar Evento
+        </button>
+      }
+
+      <!-- Action buttons on the right -->
+      <div class="space-x-2">
+        <button
+          type="button"
+          class="btn btn-outline btn-sm"
+          (click)="fechar()"
+        >
+          Cancelar
+        </button>
+        <button
+          type="button"
+          class="btn btn-primary btn-sm"
+          [disabled]="!temMudancas()"
+          (click)="salvarEvento()"
+        >
+          {{ evento ? 'Atualizar' : 'Criar' }} Evento
+        </button>
+      </div>
     </div>
   </div>
 
