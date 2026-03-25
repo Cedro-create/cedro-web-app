@@ -411,13 +411,26 @@ app.get('/api/eventos', async (req, res) => {
       GROUP BY e.id
       ORDER BY e.data, e.hora_inicio
     `);
-    const eventos = result.rows.map(evento => ({
-      ...evento,
-      horaInicio: evento.hora_inicio,
-      horaFim: evento.hora_fim,
-      hora_inicio: undefined,
-      hora_fim: undefined
-    }));
+    const eventos = result.rows.map(evento => {
+      const dataStr = evento.data instanceof Date
+        ? evento.data.toISOString().split('T')[0]
+        : String(evento.data).split('T')[0];
+      const horaInicioStr = String(evento.hora_inicio).split(':').slice(0, 2).join(':');
+      const horaFimStr = String(evento.hora_fim).split(':').slice(0, 2).join(':');
+
+      return {
+        id: evento.id,
+        nome: evento.nome,
+        descricao: evento.descricao,
+        cor: evento.cor,
+        data: dataStr,
+        horaInicio: horaInicioStr,
+        horaFim: horaFimStr,
+        clienteIds: evento.clienteIds,
+        servicoIds: evento.servicoIds,
+        fornecedorIds: evento.fornecedorIds
+      };
+    });
     console.log('✅ SERVER: Retornando', eventos.length, 'eventos');
     res.json(eventos);
   } catch (error) {
@@ -446,12 +459,23 @@ app.get('/api/eventos/:id', async (req, res) => {
       return;
     }
     const evento = result.rows[0];
+    const dataStr = evento.data instanceof Date
+      ? evento.data.toISOString().split('T')[0]
+      : String(evento.data).split('T')[0];
+    const horaInicioStr = String(evento.hora_inicio).split(':').slice(0, 2).join(':');
+    const horaFimStr = String(evento.hora_fim).split(':').slice(0, 2).join(':');
+
     res.json({
-      ...evento,
-      horaInicio: evento.hora_inicio,
-      horaFim: evento.hora_fim,
-      hora_inicio: undefined,
-      hora_fim: undefined
+      id: evento.id,
+      nome: evento.nome,
+      descricao: evento.descricao,
+      cor: evento.cor,
+      data: dataStr,
+      horaInicio: horaInicioStr,
+      horaFim: horaFimStr,
+      clienteIds: evento.clienteIds,
+      servicoIds: evento.servicoIds,
+      fornecedorIds: evento.fornecedorIds
     });
   } catch (error) {
     console.error('Erro ao buscar evento:', error);
@@ -507,10 +531,21 @@ app.post('/api/eventos', async (req, res) => {
 
     await client.query('COMMIT');
 
+    const evt = eventoResult.rows[0];
+    const dataStr = evt.data instanceof Date
+      ? evt.data.toISOString().split('T')[0]
+      : String(evt.data).split('T')[0];
+    const horaInicioStr = String(evt.hora_inicio).split(':').slice(0, 2).join(':');
+    const horaFimStr = String(evt.hora_fim).split(':').slice(0, 2).join(':');
+
     const eventoResposta = {
-      ...eventoResult.rows[0],
-      horaInicio: eventoResult.rows[0].hora_inicio,
-      horaFim: eventoResult.rows[0].hora_fim,
+      id: evt.id,
+      nome: evt.nome,
+      descricao: evt.descricao,
+      cor: evt.cor,
+      data: dataStr,
+      horaInicio: horaInicioStr,
+      horaFim: horaFimStr,
       clienteIds: clienteIds || [],
       servicoIds: servicoIds || [],
       fornecedorIds: fornecedorIds || []
@@ -584,10 +619,21 @@ app.put('/api/eventos/:id', async (req, res) => {
 
     await client.query('COMMIT');
 
+    const evt = eventoResult.rows[0];
+    const dataStr = evt.data instanceof Date
+      ? evt.data.toISOString().split('T')[0]
+      : String(evt.data).split('T')[0];
+    const horaInicioStr = String(evt.hora_inicio).split(':').slice(0, 2).join(':');
+    const horaFimStr = String(evt.hora_fim).split(':').slice(0, 2).join(':');
+
     res.json({
-      ...eventoResult.rows[0],
-      horaInicio: eventoResult.rows[0].hora_inicio,
-      horaFim: eventoResult.rows[0].hora_fim,
+      id: evt.id,
+      nome: evt.nome,
+      descricao: evt.descricao,
+      cor: evt.cor,
+      data: dataStr,
+      horaInicio: horaInicioStr,
+      horaFim: horaFimStr,
       clienteIds: clienteIds || [],
       servicoIds: servicoIds || [],
       fornecedorIds: fornecedorIds || []
