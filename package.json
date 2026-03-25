@@ -9,7 +9,8 @@
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
     "server": "node server.js",
-    "render-start": "node server.js",
+    "prepare-db": "node prepare.js",
+    "render-start": "node prepare.js && node server.js",
     "serve:ssr:cedros-app": "node dist/cedros-app/server/server.mjs"
   },
   "private": true,
