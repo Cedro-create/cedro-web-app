@@ -1,5 +1,6 @@
 <div class="space-y-2 max-h-96 overflow-y-auto">
   @for (slot of timeSlots(); track slot) {
+    @let _eventosCount = eventos.length;
     @let evento = getEventoNoSlot(slot);
     <div class="flex gap-4 border-b border-base-300 pb-2">
       <div class="w-16 flex-shrink-0 text-right text-xs font-medium text-base-content/60">

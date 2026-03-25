@@ -78,6 +78,7 @@
 
           <!-- Time slot cells -->
           @for (date of weekDates(); track date.getTime()) {
+            @let _eventosCount = eventos.length;
             @let evento = getEventoNoSlot(date, slot);
             <div
               class="border-b border-r border-base-300 p-1 cursor-pointer transition-all"

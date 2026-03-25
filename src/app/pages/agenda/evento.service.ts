@@ -16,8 +16,11 @@ export class EventoService {
     console.log('📥 EventoService: carregando eventos...');
     this.repository.getAll().subscribe(
       eventos => {
-        console.log('✅ EventoService: eventos carregados', eventos);
+        console.log('✅ EventoService: eventos carregados, total:', eventos.length);
+        console.log('📋 Primeiro evento:', eventos[0]);
+        console.log('🔍 Estrutura completa:', JSON.stringify(eventos[0], null, 2));
         this._eventos.set(eventos);
+        console.log('✅ Sinal atualizado com', this._eventos().length, 'eventos');
       },
       error => {
         console.error('❌ EventoService: erro ao carregar eventos', error);
