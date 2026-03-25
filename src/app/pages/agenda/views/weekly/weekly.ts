@@ -1,4 +1,4 @@
-import { Component, signal, Output, EventEmitter, effect } from '@angular/core';
+import { Component, signal, Output, EventEmitter } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { CalendarService } from '../../calendar.service';
 import { EventoService } from '../../evento.service';
@@ -18,19 +18,17 @@ export class WeeklyComponent {
   currentDate = signal(new Date());
   weekDates = signal<Date[]>([]);
   timeSlots = signal<string[]>([]);
-  eventosRefresh = signal(0); // Força re-renderização quando eventos mudam
+
+  // Expor eventos para o template poder reagir
+  get eventos() {
+    return this.eventoService.eventos();
+  }
 
   constructor(
     private calendarService: CalendarService,
     private eventoService: EventoService
   ) {
     this.updateWeek();
-
-    // Monitorar mudanças nos eventos
-    effect(() => {
-      console.log('📢 WeeklyComponent: eventos atualizados, força re-renderização', this.eventoService.eventos().length);
-      this.eventosRefresh.set(this.eventosRefresh() + 1);
-    });
   }
 
   updateWeek() {
