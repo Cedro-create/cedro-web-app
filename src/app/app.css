@@ -1,10 +1,7 @@
 @plugin "daisyui";
 
-@plugin "daisyui/theme" {
-  name: "abyss";
-  default: true;
-  prefersdark: true;
-  color-scheme: "dark";
+[data-theme="abyss"] {
+  color-scheme: dark;
   --color-base-100: oklch(20% 0.08 209);
   --color-base-200: oklch(15% 0.08 209);
   --color-base-300: oklch(10% 0.08 209);
