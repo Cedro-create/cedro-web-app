@@ -396,6 +396,7 @@ app.delete('/api/servicos/:id', async (req, res) => {
 // ============ EVENTOS ============
 
 app.get('/api/eventos', async (req, res) => {
+  console.log('🔵 SERVER: GET /api/eventos');
   try {
     const result = await db.query(`
       SELECT
@@ -417,9 +418,10 @@ app.get('/api/eventos', async (req, res) => {
       hora_inicio: undefined,
       hora_fim: undefined
     }));
+    console.log('✅ SERVER: Retornando', eventos.length, 'eventos');
     res.json(eventos);
   } catch (error) {
-    console.error('Erro ao buscar eventos:', error);
+    console.error('💥 SERVER: Erro ao buscar eventos:', error);
     res.status(500).json({ error: error.message });
   }
 });
@@ -458,6 +460,7 @@ app.get('/api/eventos/:id', async (req, res) => {
 });
 
 app.post('/api/eventos', async (req, res) => {
+  console.log('🔵 SERVER: POST /api/eventos recebido', req.body);
   const client = await db.connect();
   try {
     await client.query('BEGIN');
@@ -504,17 +507,20 @@ app.post('/api/eventos', async (req, res) => {
 
     await client.query('COMMIT');
 
-    res.status(201).json({
+    const eventoResposta = {
       ...eventoResult.rows[0],
       horaInicio: eventoResult.rows[0].hora_inicio,
       horaFim: eventoResult.rows[0].hora_fim,
       clienteIds: clienteIds || [],
       servicoIds: servicoIds || [],
       fornecedorIds: fornecedorIds || []
-    });
+    };
+
+    console.log('✅ SERVER: Evento criado com sucesso', eventoResposta.id, eventoResposta.nome);
+    res.status(201).json(eventoResposta);
   } catch (error) {
     await client.query('ROLLBACK');
-    console.error('Erro ao criar evento:', error);
+    console.error('💥 SERVER: Erro ao criar evento:', error);
     res.status(500).json({ error: error.message });
   } finally {
     client.release();

@@ -1,4 +1,4 @@
-import { Component, Input, Output, EventEmitter, signal } from '@angular/core';
+import { Component, Input, Output, EventEmitter, signal, effect } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { CalendarService } from '../../calendar.service';
 import { EventoService } from '../../evento.service';
@@ -17,12 +17,19 @@ export class DayComponent {
   @Output() novoEvento = new EventEmitter<{ data: string; hora: string }>();
 
   timeSlots = signal<string[]>([]);
+  eventosRefresh = signal(0); // Força re-renderização quando eventos mudam
 
   constructor(
     private calendarService: CalendarService,
     private eventoService: EventoService
   ) {
     this.timeSlots.set(this.calendarService.getTimeSlots());
+
+    // Monitorar mudanças nos eventos
+    effect(() => {
+      console.log('📢 DayComponent: eventos atualizados, força re-renderização', this.eventoService.eventos().length);
+      this.eventosRefresh.set(this.eventosRefresh() + 1);
+    });
   }
 
   getDataIso(): string {
