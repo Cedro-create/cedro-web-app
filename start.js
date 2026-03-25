@@ -1,11 +1,8 @@
 #!/usr/bin/env node
-// Start script que SEMPRE roda Express (nunca ng serve em produção)
+// Start script que roda Express (com inicialização automática do banco no server.js)
 import { execSync } from 'child_process';
 
 try {
-  console.log('📊 Preparando banco de dados...');
-  execSync('node prepare.js', { stdio: 'inherit' });
-
   console.log('🚀 Iniciando servidor Express...');
   execSync('node server.js', { stdio: 'inherit' });
 } catch (error) {
