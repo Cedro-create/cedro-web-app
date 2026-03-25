@@ -87,7 +87,11 @@ export class FornecedoresComponent {
   }
 
   updateFormField(field: string, value: any) {
+    let fieldValue = value;
+    if (value && typeof value === 'object' && 'target' in value) {
+      fieldValue = (value.target as any).value;
+    }
     const current = this.formData();
-    this.formData.set({ ...current, [field]: value });
+    this.formData.set({ ...current, [field]: fieldValue });
   }
 }

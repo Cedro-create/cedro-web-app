@@ -56,7 +56,8 @@ export class AgendaComponent {
     if (this.eventoEditando()) {
       this.eventoService.atualizarEvento(evento.id, evento);
     } else {
-      this.eventoService.criarEvento(evento);
+      const { id, ...eventoSemId } = evento;
+      this.eventoService.criarEvento(eventoSemId);
     }
     this.fecharModal();
   }

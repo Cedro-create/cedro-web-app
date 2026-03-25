@@ -84,7 +84,13 @@ export class ServicosComponent {
   }
 
   updateFormField(field: string, event: any) {
-    const value = field === 'preco' ? parseFloat(event) : event;
+    let value = event;
+    if (event && typeof event === 'object' && 'target' in event) {
+      value = (event.target as any).value;
+    }
+    if (field === 'preco') {
+      value = parseFloat(value);
+    }
     const current = this.formData();
     this.formData.set({ ...current, [field]: value });
   }
