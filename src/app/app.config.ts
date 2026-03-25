@@ -1,22 +1,24 @@
 import { ApplicationConfig, provideBrowserGlobalErrorListeners } from '@angular/core';
 import { provideRouter } from '@angular/router';
+import { provideHttpClient } from '@angular/common/http';
 
 import { routes } from './app.routes';
 import { provideClientHydration, withEventReplay } from '@angular/platform-browser';
 import { SERVICO_REPOSITORY, CLIENTE_REPOSITORY, FORNECEDOR_REPOSITORY, EVENTO_REPOSITORY } from './core/tokens';
-import { ServicoMockRepository } from './core/repositories/mock/servico.mock.repository';
-import { ClienteMockRepository } from './core/repositories/mock/cliente.mock.repository';
-import { FornecedorMockRepository } from './core/repositories/mock/fornecedor.mock.repository';
-import { EventoMockRepository } from './core/repositories/mock/evento.mock.repository';
+import { ServicoHttpRepository } from './core/repositories/http/servico.http.repository';
+import { ClienteHttpRepository } from './core/repositories/http/cliente.http.repository';
+import { FornecedorHttpRepository } from './core/repositories/http/fornecedor.http.repository';
+import { EventoHttpRepository } from './core/repositories/http/evento.http.repository';
 
 export const appConfig: ApplicationConfig = {
   providers: [
     provideBrowserGlobalErrorListeners(),
     provideRouter(routes),
     provideClientHydration(withEventReplay()),
-    { provide: SERVICO_REPOSITORY, useClass: ServicoMockRepository },
-    { provide: CLIENTE_REPOSITORY, useClass: ClienteMockRepository },
-    { provide: FORNECEDOR_REPOSITORY, useClass: FornecedorMockRepository },
-    { provide: EVENTO_REPOSITORY, useClass: EventoMockRepository }
+    provideHttpClient(),
+    { provide: SERVICO_REPOSITORY, useClass: ServicoHttpRepository },
+    { provide: CLIENTE_REPOSITORY, useClass: ClienteHttpRepository },
+    { provide: FORNECEDOR_REPOSITORY, useClass: FornecedorHttpRepository },
+    { provide: EVENTO_REPOSITORY, useClass: EventoHttpRepository }
   ]
 };
