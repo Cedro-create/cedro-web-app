@@ -4,13 +4,12 @@
   "type": "module",
   "scripts": {
     "ng": "ng",
-    "start": "node start.js",
+    "start": "node server.js",
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
     "server": "node server.js",
     "prepare-db": "node prepare.js",
-    "render-start": "NODE_ENV=production node start.js",
     "serve:ssr:cedros-app": "node dist/cedros-app/server/server.mjs"
   },
   "private": true,
