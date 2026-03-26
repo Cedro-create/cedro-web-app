@@ -1,14 +1,15 @@
 <div class="space-y-4">
+  <!-- Header -->
   <div class="flex items-center justify-between">
-    <h1 class="text-2xl font-bold">Clientes</h1>
+    <h1 style="font-size: 1.875rem; font-weight: bold; color: var(--color-base-content);">Clientes</h1>
     <button
       type="button"
-      class="btn btn-primary"
+      style="background-color: var(--color-primary); color: var(--color-primary-content); padding: 0.5rem 1rem; border-radius: 0.25rem; border: none; cursor: pointer; font-weight: 600; white-space: nowrap; display: flex; align-items: center; gap: 0.5rem;"
       (click)="openModal()"
     >
       <svg
         xmlns="http://www.w3.org/2000/svg"
-        class="h-5 w-5"
+        style="width: 1.25rem; height: 1.25rem;"
         fill="currentColor"
         viewBox="0 0 24 24"
       >
@@ -18,40 +19,40 @@
     </button>
   </div>
 
-  <!-- Table -->
-  <div class="overflow-x-auto rounded-lg border border-base-300 bg-base-100">
-    <table class="table w-full">
+  <!-- Table Container -->
+  <div style="border: 1px solid var(--color-base-300); border-radius: 0.25rem; background-color: var(--color-base-100); overflow-x: auto;">
+    <table style="width: 100%; border-collapse: collapse;">
       <thead>
-        <tr class="border-b border-base-300 bg-base-200">
-          <th class="text-left">Nome</th>
-          <th class="text-left">Email</th>
-          <th class="text-left">Telefone</th>
-          <th class="text-center">Ações</th>
+        <tr style="border-bottom: 2px solid var(--color-base-300); background-color: var(--color-base-200);">
+          <th style="text-align: left; padding: 0.75rem; color: var(--color-base-content); font-weight: 600;">Nome</th>
+          <th style="text-align: left; padding: 0.75rem; color: var(--color-base-content); font-weight: 600;">Email</th>
+          <th style="text-align: left; padding: 0.75rem; color: var(--color-base-content); font-weight: 600;">Telefone</th>
+          <th style="text-align: center; padding: 0.75rem; color: var(--color-base-content); font-weight: 600;">Ações</th>
         </tr>
       </thead>
       <tbody>
         @if (clientes().length === 0) {
           <tr>
-            <td colspan="4" class="py-8 text-center text-base-content/50">
+            <td colspan="4" style="padding: 2rem; text-align: center; color: var(--color-base-content); opacity: 0.5;">
               Nenhum cliente cadastrado
             </td>
           </tr>
         }
 
         @for (cliente of clientes(); track cliente.id) {
-          <tr class="border-b border-base-300 hover:bg-base-200">
-            <td class="font-semibold">{{ cliente.nome }}</td>
-            <td class="text-base-content/70">{{ cliente.email }}</td>
-            <td>{{ cliente.telefone }}</td>
-            <td class="text-center">
+          <tr style="border-bottom: 1px solid var(--color-base-300);">
+            <td style="padding: 0.75rem; font-weight: 600; color: var(--color-base-content);">{{ cliente.nome }}</td>
+            <td style="padding: 0.75rem; color: var(--color-base-content); opacity: 0.7;">{{ cliente.email }}</td>
+            <td style="padding: 0.75rem; color: var(--color-base-content);">{{ cliente.telefone }}</td>
+            <td style="text-align: center; padding: 0.75rem;">
               <button
                 type="button"
-                class="btn btn-sm btn-ghost"
+                style="background: transparent; border: none; cursor: pointer; padding: 0.5rem; display: inline-flex; align-items: center; justify-content: center; color: var(--color-base-content); transition: all 0.2s;"
                 (click)="openModal(cliente)"
               >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
-                  class="h-4 w-4"
+                  style="width: 1rem; height: 1rem;"
                   fill="currentColor"
                   viewBox="0 0 24 24"
                 >
@@ -65,12 +66,12 @@
               </button>
               <button
                 type="button"
-                class="btn btn-sm btn-ghost text-error"
+                style="background: transparent; border: none; cursor: pointer; padding: 0.5rem; display: inline-flex; align-items: center; justify-content: center; color: var(--color-error); transition: all 0.2s;"
                 (click)="delete(cliente.id)"
               >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
-                  class="h-4 w-4"
+                  style="width: 1rem; height: 1rem;"
                   fill="currentColor"
                   viewBox="0 0 24 24"
                 >
@@ -88,74 +89,73 @@
 
   <!-- Modal -->
   @if (showModal()) {
-    <div class="modal modal-open">
-      <div class="modal-box w-full max-w-md">
-        <h3 class="text-lg font-bold">
-          {{ editingId() ? 'Editar Cliente' : 'Novo Cliente' }}
-        </h3>
+    <div style="position: fixed; inset: 0; background-color: rgba(0, 0, 0, 0.5); display: flex; align-items: center; justify-content: center; z-index: 50;">
+      <div style="background-color: var(--color-base-100); border: 1px solid var(--color-base-300); border-radius: 0.25rem; padding: 1.5rem; width: 90%; max-width: 500px; box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);">
+        <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 1rem;">
+          <h3 style="font-size: 1.125rem; font-weight: bold; color: var(--color-base-content);">
+            {{ editingId() ? 'Editar Cliente' : 'Novo Cliente' }}
+          </h3>
+          <button
+            type="button"
+            style="background: transparent; border: none; cursor: pointer; color: var(--color-base-content); font-size: 1.5rem; padding: 0; width: 1.5rem; height: 1.5rem; display: flex; align-items: center; justify-content: center;"
+            (click)="closeModal()"
+          >
+            ✕
+          </button>
+        </div>
 
-        <div class="space-y-4 py-4">
-          <div class="form-control">
-            <label class="label">
-              <span class="label-text">Nome</span>
-            </label>
+        <div style="display: flex; flex-direction: column; gap: 1rem; margin: 1rem 0;">
+          <div>
+            <label style="display: block; margin-bottom: 0.5rem; color: var(--color-base-content); font-weight: 500;">Nome</label>
             <input
               type="text"
               placeholder="Nome do cliente"
-              class="input input-bordered w-full"
+              style="width: 100%; padding: 0.5rem 0.75rem; border: 1px solid var(--color-base-300); border-radius: 0.25rem; background-color: var(--color-base-100); color: var(--color-base-content); font-size: 1rem; transition: all 0.2s;"
               [value]="formData().nome"
               (change)="updateFormField('nome', $event.target.value)"
             />
           </div>
 
-          <div class="form-control">
-            <label class="label">
-              <span class="label-text">Email</span>
-            </label>
+          <div>
+            <label style="display: block; margin-bottom: 0.5rem; color: var(--color-base-content); font-weight: 500;">Email</label>
             <input
               type="email"
               placeholder="email@example.com"
-              class="input input-bordered w-full"
+              style="width: 100%; padding: 0.5rem 0.75rem; border: 1px solid var(--color-base-300); border-radius: 0.25rem; background-color: var(--color-base-100); color: var(--color-base-content); font-size: 1rem; transition: all 0.2s;"
               [value]="formData().email"
               (change)="updateFormField('email', $event.target.value)"
             />
           </div>
 
-          <div class="form-control">
-            <label class="label">
-              <span class="label-text">Telefone</span>
-            </label>
+          <div>
+            <label style="display: block; margin-bottom: 0.5rem; color: var(--color-base-content); font-weight: 500;">Telefone</label>
             <input
               type="tel"
               placeholder="(11) 99999-9999"
-              class="input input-bordered w-full"
+              style="width: 100%; padding: 0.5rem 0.75rem; border: 1px solid var(--color-base-300); border-radius: 0.25rem; background-color: var(--color-base-100); color: var(--color-base-content); font-size: 1rem; transition: all 0.2s;"
               [value]="formData().telefone"
               (change)="updateFormField('telefone', $event.target.value)"
             />
           </div>
         </div>
 
-        <div class="modal-action">
+        <div style="display: flex; justify-content: flex-end; gap: 0.5rem; margin-top: 1.5rem;">
           <button
             type="button"
-            class="btn btn-outline btn-sm"
+            style="background-color: transparent; color: var(--color-base-content); border: 1px solid var(--color-base-300); padding: 0.5rem 1rem; border-radius: 0.25rem; cursor: pointer; font-weight: 600; transition: all 0.2s;"
             (click)="closeModal()"
           >
             Cancelar
           </button>
           <button
             type="button"
-            class="btn btn-primary btn-sm"
+            style="background-color: var(--color-primary); color: var(--color-primary-content); padding: 0.5rem 1rem; border-radius: 0.25rem; border: none; cursor: pointer; font-weight: 600; transition: all 0.2s;"
             (click)="save()"
           >
             Salvar
           </button>
         </div>
       </div>
-
-      <form method="dialog" class="modal-backdrop" (ngSubmit)="closeModal()">
-        <button type="submit"></button>
-      </form>
     </div>
   }
 </div>
