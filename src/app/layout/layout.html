@@ -1,4 +1,4 @@
-<div class="drawer lg:drawer-open">
+<div class="drawer">
   <input
     id="drawer-toggle"
     type="checkbox"
@@ -6,57 +6,29 @@
   />
   <div class="drawer-content flex flex-col">
     <!-- Navbar -->
-    <div class="navbar bg-base-200 sticky top-0 z-40">
-      <div class="flex-none gap-2">
-        <label
-          for="drawer-toggle"
-          class="btn btn-ghost drawer-button lg:hidden"
-        >
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            fill="none"
-            viewBox="0 0 24 24"
-            class="inline-block h-5 w-5 stroke-current"
-          >
-            <path
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              stroke-width="2"
-              d="M4 6h16M4 12h16M4 18h16"
-            ></path>
-          </svg>
-        </label>
-      </div>
+    <div class="navbar">
       <div class="flex-1">
-        <a class="btn btn-ghost text-xl">Cedros App</a>
-      </div>
-      <div class="flex-none gap-2">
-        <div class="form-control"></div>
+        <a class="text-2xl font-bold" style="color: var(--color-base-content);">Cedros App</a>
       </div>
     </div>
 
     <!-- Main Content -->
-    <main class="flex-1 p-4">
+    <main class="flex-1 p-6">
       <router-outlet></router-outlet>
     </main>
   </div>
 
   <!-- Sidebar -->
-  <div class="drawer-side lg:z-auto">
-    <label
-      for="drawer-toggle"
-      aria-label="close sidebar"
-      class="drawer-overlay lg:hidden"
-    ></label>
-    <ul class="menu min-h-screen w-80 bg-base-200 p-4 space-y-2">
+  <div class="drawer-side">
+    <ul class="menu">
       <!-- Sidebar header -->
-      <li class="mb-4">
-        <a class="text-lg font-bold text-primary">Cedros</a>
+      <li class="mb-2">
+        <a class="text-lg font-bold" style="color: var(--color-primary);">Cedros</a>
       </li>
 
       <!-- Divider -->
-      <li class="my-2">
-        <div class="divider m-0"></div>
+      <li>
+        <div class="divider"></div>
       </li>
 
       <!-- Menu items -->
@@ -64,6 +36,7 @@
         <a
           routerLink="/agenda"
           routerLinkActive="active"
+          class="sidebar-btn"
           (click)="toggleDrawer()"
         >
           <svg
@@ -81,14 +54,14 @@
       </li>
 
       <!-- Divider -->
-      <li class="my-4">
-        <div class="divider m-0"></div>
+      <li>
+        <div class="divider"></div>
       </li>
 
       <!-- Cadastro submenu with collapse -->
       <li>
         <details open>
-          <summary class="flex items-center gap-2 cursor-pointer px-3 py-2">
+          <summary class="sidebar-btn">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               class="h-5 w-5"
@@ -106,8 +79,8 @@
               <a
                 routerLink="/cadastro/servicos"
                 routerLinkActive="active"
+                class="sidebar-btn text-sm"
                 (click)="toggleDrawer()"
-                class="flex items-center gap-2 px-3 py-2 text-sm"
               >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -124,8 +97,8 @@
               <a
                 routerLink="/cadastro/clientes"
                 routerLinkActive="active"
+                class="sidebar-btn text-sm"
                 (click)="toggleDrawer()"
-                class="flex items-center gap-2 px-3 py-2 text-sm"
               >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -142,8 +115,8 @@
               <a
                 routerLink="/cadastro/fornecedores"
                 routerLinkActive="active"
+                class="sidebar-btn text-sm"
                 (click)="toggleDrawer()"
-                class="flex items-center gap-2 px-3 py-2 text-sm"
               >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -153,7 +126,7 @@
                 >
                   <path d="M20 8h-3V4H3c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2v-8h3l4-4-4-4zm-2 12H3V6h12v14zm-6-4l2.22-2.22-2.22-2.22V8h4v8h-4v-2z" />
                 </svg>
-                Fornecedores
+                Clientes
               </a>
             </li>
           </ul>
@@ -161,8 +134,8 @@
       </li>
 
       <!-- Divider for future items -->
-      <li class="my-4">
-        <div class="divider m-0"></div>
+      <li>
+        <div class="divider"></div>
       </li>
 
       <li class="menu-title">

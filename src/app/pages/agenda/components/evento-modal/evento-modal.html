@@ -1,200 +1,171 @@
-<div class="modal modal-open">
-  <div class="modal-box w-full max-w-2xl max-h-96 overflow-y-auto">
-    <h3 class="text-lg font-bold mb-4">
-      {{ evento ? 'Editar Evento' : 'Novo Evento' }}
-    </h3>
+<div style="position: fixed; inset: 0; background-color: rgba(0, 0, 0, 0.5); display: flex; align-items: center; justify-content: center; z-index: 50;">
+    <div style="background-color: var(--color-base-200); border-radius: 0.5rem; padding: 2rem; max-width: 600px; width: 90%; max-height: 90vh; overflow-y: auto; box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);">
+      <h3 style="font-size: 1.125rem; font-weight: bold; margin-bottom: 1rem; color: var(--color-base-content);">
+        {{ evento ? 'Editar Evento' : 'Novo Evento' }}
+      </h3>
 
-    <div class="space-y-4">
-      <!-- Nome -->
-      <div class="form-control">
-        <label class="label">
-          <span class="label-text font-semibold">Nome do Evento *</span>
-        </label>
-        <input
-          type="text"
-          placeholder="ex: Reunião com cliente"
-          class="input input-bordered w-full"
-          [value]="formData().nome"
-          (change)="updateFormField('nome', $event.target.value)"
-        />
-      </div>
-
-      <!-- Descrição -->
-      <div class="form-control">
-        <label class="label">
-          <span class="label-text font-semibold">Descrição</span>
-        </label>
-        <textarea
-          placeholder="Detalhes do evento"
-          class="textarea textarea-bordered w-full"
-          [value]="formData().descricao"
-          (input)="updateFormField('descricao', $event)"
-        ></textarea>
-      </div>
-
-      <!-- Data e Horário -->
-      <div class="grid grid-cols-3 gap-4">
-        <div class="form-control">
-          <label class="label">
-            <span class="label-text font-semibold">Data *</span>
-          </label>
+      <div style="display: flex; flex-direction: column; gap: 1rem;">
+        <!-- Nome -->
+        <div>
+          <label style="display: block; font-size: 0.875rem; font-weight: 600; margin-bottom: 0.5rem; color: var(--color-base-content);">Nome do Evento *</label>
           <input
-            type="date"
-            class="input input-bordered"
-            [value]="formData().data"
-            (change)="updateFormField('data', $event.target.value)"
+            type="text"
+            placeholder="ex: Reunião com cliente"
+            style="width: 100%; padding: 0.5rem; border: 1px solid var(--color-base-300); border-radius: 0.5rem; background-color: var(--color-base-100); color: var(--color-base-content);"
+            [value]="formData().nome"
+            (change)="updateFormField('nome', $event.target.value)"
           />
         </div>
 
-        <div class="form-control">
-          <label class="label">
-            <span class="label-text font-semibold">Início *</span>
-          </label>
-          <input
-            type="time"
-            class="input input-bordered"
-            [value]="formData().horaInicio"
-            (change)="updateFormField('horaInicio', $event.target.value)"
-          />
+        <!-- Descrição -->
+        <div>
+          <label style="display: block; font-size: 0.875rem; font-weight: 600; margin-bottom: 0.5rem; color: var(--color-base-content);">Descrição</label>
+          <textarea
+            placeholder="Detalhes do evento"
+            style="width: 100%; padding: 0.5rem; border: 1px solid var(--color-base-300); border-radius: 0.5rem; background-color: var(--color-base-100); color: var(--color-base-content); min-height: 80px;"
+            [value]="formData().descricao"
+            (input)="updateFormField('descricao', $event)"
+          ></textarea>
         </div>
 
-        <div class="form-control">
-          <label class="label">
-            <span class="label-text font-semibold">Fim *</span>
-          </label>
-          <input
-            type="time"
-            class="input input-bordered"
-            [value]="formData().horaFim"
-            (change)="updateFormField('horaFim', $event.target.value)"
-          />
+        <!-- Data e Horário -->
+        <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem;">
+          <div>
+            <label style="display: block; font-size: 0.875rem; font-weight: 600; margin-bottom: 0.5rem; color: var(--color-base-content);">Data *</label>
+            <input
+              type="date"
+              style="width: 100%; padding: 0.5rem; border: 1px solid var(--color-base-300); border-radius: 0.5rem; background-color: var(--color-base-100); color: var(--color-base-content);"
+              [value]="formData().data"
+              (change)="updateFormField('data', $event.target.value)"
+            />
+          </div>
+
+          <div>
+            <label style="display: block; font-size: 0.875rem; font-weight: 600; margin-bottom: 0.5rem; color: var(--color-base-content);">Início *</label>
+            <input
+              type="time"
+              style="width: 100%; padding: 0.5rem; border: 1px solid var(--color-base-300); border-radius: 0.5rem; background-color: var(--color-base-100); color: var(--color-base-content);"
+              [value]="formData().horaInicio"
+              (change)="updateFormField('horaInicio', $event.target.value)"
+            />
+          </div>
+
+          <div>
+            <label style="display: block; font-size: 0.875rem; font-weight: 600; margin-bottom: 0.5rem; color: var(--color-base-content);">Fim *</label>
+            <input
+              type="time"
+              style="width: 100%; padding: 0.5rem; border: 1px solid var(--color-base-300); border-radius: 0.5rem; background-color: var(--color-base-100); color: var(--color-base-content);"
+              [value]="formData().horaFim"
+              (change)="updateFormField('horaFim', $event.target.value)"
+            />
+          </div>
+        </div>
+
+        <!-- Cor -->
+        <div>
+          <label style="display: block; font-size: 0.875rem; font-weight: 600; margin-bottom: 0.5rem; color: var(--color-base-content);">Cor do Evento</label>
+          <div style="display: flex; gap: 0.5rem;">
+            @for (cor of cores; track cor) {
+              <button
+                type="button"
+                style="width: 2.5rem; height: 2.5rem; border-radius: 50%; background-color: {{cor}}; border: 2px solid {{formData().cor === cor ? 'var(--color-base-content)' : 'var(--color-base-300)'}}; cursor: pointer; {{formData().cor === cor ? 'border-width: 4px;' : ''}}"
+                (click)="updateFormField('cor', cor)"
+              ></button>
+            }
+          </div>
+        </div>
+
+        <!-- Clientes -->
+        <div>
+          <label style="display: block; font-size: 0.875rem; font-weight: 600; margin-bottom: 0.5rem; color: var(--color-base-content);">Clientes</label>
+          <div style="border: 1px solid var(--color-base-300); border-radius: 0.5rem; padding: 0.5rem; max-height: 128px; overflow-y: auto; display: flex; flex-direction: column; gap: 0.5rem;">
+            @if (clientes().length === 0) {
+              <p style="font-size: 0.75rem; opacity: 0.5; color: var(--color-base-content);">Nenhum cliente cadastrado</p>
+            }
+            @for (cliente of clientes(); track cliente.id) {
+              <label style="display: flex; align-items: center; gap: 0.5rem; cursor: pointer; color: var(--color-base-content);">
+                <input
+                  type="checkbox"
+                  [checked]="isClienteSelecionado(cliente.id)"
+                  (change)="toggleCliente(cliente.id)"
+                />
+                <span style="font-size: 0.875rem;">{{ cliente.nome }}</span>
+              </label>
+            }
+          </div>
+        </div>
+
+        <!-- Serviços -->
+        <div>
+          <label style="display: block; font-size: 0.875rem; font-weight: 600; margin-bottom: 0.5rem; color: var(--color-base-content);">Serviços</label>
+          <div style="border: 1px solid var(--color-base-300); border-radius: 0.5rem; padding: 0.5rem; max-height: 128px; overflow-y: auto; display: flex; flex-direction: column; gap: 0.5rem;">
+            @if (servicos().length === 0) {
+              <p style="font-size: 0.75rem; opacity: 0.5; color: var(--color-base-content);">Nenhum serviço cadastrado</p>
+            }
+            @for (servico of servicos(); track servico.id) {
+              <label style="display: flex; align-items: center; gap: 0.5rem; cursor: pointer; color: var(--color-base-content);">
+                <input
+                  type="checkbox"
+                  [checked]="isServicoSelecionado(servico.id)"
+                  (change)="toggleServico(servico.id)"
+                />
+                <span style="font-size: 0.875rem;">{{ servico.nome }}</span>
+              </label>
+            }
+          </div>
+        </div>
+
+        <!-- Fornecedores -->
+        <div>
+          <label style="display: block; font-size: 0.875rem; font-weight: 600; margin-bottom: 0.5rem; color: var(--color-base-content);">Fornecedores</label>
+          <div style="border: 1px solid var(--color-base-300); border-radius: 0.5rem; padding: 0.5rem; max-height: 128px; overflow-y: auto; display: flex; flex-direction: column; gap: 0.5rem;">
+            @if (fornecedores().length === 0) {
+              <p style="font-size: 0.75rem; opacity: 0.5; color: var(--color-base-content);">Nenhum fornecedor cadastrado</p>
+            }
+            @for (fornecedor of fornecedores(); track fornecedor.id) {
+              <label style="display: flex; align-items: center; gap: 0.5rem; cursor: pointer; color: var(--color-base-content);">
+                <input
+                  type="checkbox"
+                  [checked]="isFornecedorSelecionado(fornecedor.id)"
+                  (change)="toggleFornecedor(fornecedor.id)"
+                />
+                <span style="font-size: 0.875rem;">{{ fornecedor.nome }}</span>
+              </label>
+            }
+          </div>
         </div>
       </div>
 
-      <!-- Cor -->
-      <div class="form-control">
-        <label class="label">
-          <span class="label-text font-semibold">Cor do Evento</span>
-        </label>
-        <div class="flex gap-2">
-          @for (cor of cores; track cor) {
-            <button
-              type="button"
-              class="btn btn-circle w-10 h-10 border-2"
-              [style.background-color]="cor"
-              [class.border-base-300]="formData().cor !== cor"
-              [class.border-base-content]="formData().cor === cor"
-              [class.border-4]="formData().cor === cor"
-              (click)="updateFormField('cor', cor)"
-            ></button>
-          }
+      <div style="display: flex; gap: 1rem; margin-top: 1.5rem; justify-content: space-between;">
+        <!-- Delete button on the left (only when editing) -->
+        @if (evento) {
+          <button
+            type="button"
+            style="background-color: var(--color-error); color: var(--color-error-content); padding: 0.5rem 1rem; border-radius: 0.5rem; border: none; cursor: pointer; font-weight: 600; font-size: 0.875rem;"
+            (click)="deletarEvento()"
+          >
+            Deletar Evento
+          </button>
+        }
+
+        <!-- Action buttons on the right -->
+        <div style="display: flex; gap: 0.5rem; margin-left: auto;">
+          <button
+            type="button"
+            style="background-color: transparent; color: var(--color-base-content); padding: 0.5rem 1rem; border: 1px solid var(--color-base-300); border-radius: 0.5rem; cursor: pointer; font-weight: 600; font-size: 0.875rem;"
+            (click)="fechar()"
+          >
+            Cancelar
+          </button>
+          <button
+            type="button"
+            style="background-color: var(--color-primary); color: var(--color-primary-content); padding: 0.5rem 1rem; border-radius: 0.5rem; border: none; cursor: pointer; font-weight: 600; font-size: 0.875rem; opacity: {{temMudancas() ? '1' : '0.5'}}; cursor: {{temMudancas() ? 'pointer' : 'not-allowed'}};"
+            [disabled]="!temMudancas()"
+            (click)="salvarEvento()"
+          >
+            {{ evento ? 'Atualizar' : 'Criar' }} Evento
+          </button>
         </div>
-      </div>
-
-      <!-- Clientes -->
-      <div class="form-control">
-        <label class="label">
-          <span class="label-text font-semibold">Clientes</span>
-        </label>
-        <div class="space-y-2 max-h-32 overflow-y-auto border border-base-300 rounded p-2">
-          @if (clientes().length === 0) {
-            <p class="text-xs text-base-content/50">Nenhum cliente cadastrado</p>
-          }
-          @for (cliente of clientes(); track cliente.id) {
-            <label class="flex items-center gap-2 cursor-pointer">
-              <input
-                type="checkbox"
-                class="checkbox checkbox-sm"
-                [checked]="isClienteSelecionado(cliente.id)"
-                (change)="toggleCliente(cliente.id)"
-              />
-              <span class="text-sm">{{ cliente.nome }}</span>
-            </label>
-          }
-        </div>
-      </div>
-
-      <!-- Serviços -->
-      <div class="form-control">
-        <label class="label">
-          <span class="label-text font-semibold">Serviços</span>
-        </label>
-        <div class="space-y-2 max-h-32 overflow-y-auto border border-base-300 rounded p-2">
-          @if (servicos().length === 0) {
-            <p class="text-xs text-base-content/50">Nenhum serviço cadastrado</p>
-          }
-          @for (servico of servicos(); track servico.id) {
-            <label class="flex items-center gap-2 cursor-pointer">
-              <input
-                type="checkbox"
-                class="checkbox checkbox-sm"
-                [checked]="isServicoSelecionado(servico.id)"
-                (change)="toggleServico(servico.id)"
-              />
-              <span class="text-sm">{{ servico.nome }}</span>
-            </label>
-          }
-        </div>
-      </div>
-
-      <!-- Fornecedores -->
-      <div class="form-control">
-        <label class="label">
-          <span class="label-text font-semibold">Fornecedores</span>
-        </label>
-        <div class="space-y-2 max-h-32 overflow-y-auto border border-base-300 rounded p-2">
-          @if (fornecedores().length === 0) {
-            <p class="text-xs text-base-content/50">Nenhum fornecedor cadastrado</p>
-          }
-          @for (fornecedor of fornecedores(); track fornecedor.id) {
-            <label class="flex items-center gap-2 cursor-pointer">
-              <input
-                type="checkbox"
-                class="checkbox checkbox-sm"
-                [checked]="isFornecedorSelecionado(fornecedor.id)"
-                (change)="toggleFornecedor(fornecedor.id)"
-              />
-              <span class="text-sm">{{ fornecedor.nome }}</span>
-            </label>
-          }
-        </div>
-      </div>
-    </div>
-
-    <div class="modal-action mt-6 flex justify-between">
-      <!-- Delete button on the left (only when editing) -->
-      @if (evento) {
-        <button
-          type="button"
-          class="btn btn-error btn-sm"
-          (click)="deletarEvento()"
-        >
-          Deletar Evento
-        </button>
-      }
-
-      <!-- Action buttons on the right -->
-      <div class="space-x-2">
-        <button
-          type="button"
-          class="btn btn-outline btn-sm"
-          (click)="fechar()"
-        >
-          Cancelar
-        </button>
-        <button
-          type="button"
-          class="btn btn-primary btn-sm"
-          [disabled]="!temMudancas()"
-          (click)="salvarEvento()"
-        >
-          {{ evento ? 'Atualizar' : 'Criar' }} Evento
-        </button>
       </div>
     </div>
   </div>
-
-  <form method="dialog" class="modal-backdrop" (ngSubmit)="fechar()">
-    <button type="submit"></button>
-  </form>
-</div>
